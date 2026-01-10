@@ -48,19 +48,34 @@ sf:: RectangleShape button[3];
 
  addText(text,3);
  Vector2i c;
+ int currscr=0;
+ int i=0;
  
 
 
 while(window.isOpen()){
+    if(currscr==0){
+
+    
     sf::Event event;
     c=Mouse::getPosition(window);
     while(window.pollEvent(event)){
+        
         if(event.type==sf::Event::Closed){
             window.close();
         }
          
     }
-
+    if(button[0].getGlobalBounds().contains(c.x,c.y)){
+        i==1;
+    }
+    text[0].setFillColor(Color::White);
+    text[1].setFillColor(Color::White);
+    text[2].setFillColor(Color::White);
+    
+    if(i==1){
+text[0].setFillColor(sf::Color(60, 40, 20));
+    }
 
     window.clear();
     window.draw(screen1);
@@ -68,6 +83,7 @@ while(window.isOpen()){
     drawText(window,text,3);
     
     window.display();
+}
 }
 
 return 0;
