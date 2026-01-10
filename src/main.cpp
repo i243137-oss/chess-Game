@@ -38,19 +38,139 @@ class Screen2{
     sf::RenderWindow & window;
     sf::RectangleShape s1;
     sf::Texture  screen;
+    public:
     sf::Texture whitesMoves[6];
     sf::Texture blackMoves[6];
+    sf:: RectangleShape chess[8][8];
+
     public:
     Screen2(RenderWindow & wind) : window(wind){
-
     }
     void loadTextures(){
-        s1.setSize(Vector2f(800,600));
-        screen.loadFromFile("assests/board.png");
+        s1.setSize(Vector2f(800,800));
+        screen.loadFromFile("assets/board.png");
         s1.setTexture(&screen);
+        blackMoves[0].loadFromFile("assets/bb.png");
+        blackMoves[1].loadFromFile("assets/bk.png");
+        blackMoves[2].loadFromFile("assets/bkn.png");
+        blackMoves[3].loadFromFile("assets/bp.png");
+        blackMoves[4].loadFromFile("assets/bq.png");
+        blackMoves[5].loadFromFile("assets/br.png");
+         whitesMoves[0].loadFromFile("assets/wb.png");
+          whitesMoves[1].loadFromFile("assets/wk.png");
+           whitesMoves[2].loadFromFile("assets/wkn.png");
+            whitesMoves[3].loadFromFile("assets/wp.png");
+             whitesMoves[4].loadFromFile("assets/wq.png");
+              whitesMoves[5].loadFromFile("assets/wr.png");
+
+
+
+
+
+
+
+
     }
+    void loadChess(){
+        for(int i=0; i<8;i++){
+        for(int j=0;j<8; j++){
+            chess[i][j].setSize(Vector2f(97.5,97.5));
+            chess[i][j].setPosition(Vector2f(10+97.5*i,10+97.5*j));
+            chess[i][j].setOutlineColor(Color::Yellow);
+            chess[i][j].setFillColor(Color::Transparent);
+            
+            
+           
+        }
+       
+    }
+    setBlackChess();
+    setWhiteChess(whitesMoves);
+    
+    
+    }
+    void setBlackChess(){
+        // black
+        for( int i=0; i<8; i++){
+        chess[i][1].setFillColor(Color::White);
+        chess[i][1].setTexture(&blackMoves[3]);
+        }
+        chess[0][0].setFillColor(Color::White);
+        chess[0][0].setTexture(&blackMoves[5]);
+         chess[7][0].setFillColor(Color::White);
+        chess[7][0].setTexture(&blackMoves[5]);
+
+         chess[1][0].setFillColor(Color::White);
+        chess[1][0].setTexture(&blackMoves[2]);
+         chess[6][0].setFillColor(Color::White);
+        chess[6][0].setTexture(&blackMoves[2]);
+
+         chess[2][0].setFillColor(Color::White);
+        chess[2][0].setTexture(&blackMoves[0]);
+        chess[5][0].setFillColor(Color::White);
+        chess[5][0].setTexture(&blackMoves[0]);
+
+         chess[3][0].setFillColor(Color::White);
+        chess[3][0].setTexture(&blackMoves[4]);
+
+         chess[4][0].setFillColor(Color::White);
+        chess[4][0].setTexture(&blackMoves[1]);
+
+
+
+        
+    }
+    void setWhiteChess(Texture blackMoves[]){
+        
+        for( int i=0; i<8; i++){
+        chess[i][6].setFillColor(Color::White);
+        chess[i][6].setTexture(&blackMoves[3]);
+        }
+        chess[0][7].setFillColor(Color::White);
+        chess[0][7].setTexture(&blackMoves[5]);
+         chess[7][7].setFillColor(Color::White);
+        chess[7][7].setTexture(&blackMoves[5]);
+
+         chess[1][7].setFillColor(Color::White);
+        chess[1][7].setTexture(&blackMoves[2]);
+         chess[6][7].setFillColor(Color::White);
+        chess[6][7].setTexture(&blackMoves[2]);
+
+         chess[2][7].setFillColor(Color::White);
+        chess[2][7].setTexture(&blackMoves[0]);
+        chess[5][7].setFillColor(Color::White);
+        chess[5][7].setTexture(&blackMoves[0]);
+
+         chess[3][7].setFillColor(Color::White);
+        chess[3][7].setTexture(&blackMoves[4]);
+
+         chess[4][7].setFillColor(Color::White);
+        chess[4][7].setTexture(&blackMoves[1]);
+
+
+
+        
+    }
+    void hoverAffect(){
+        Vector2i c=Mouse::getPosition(window);
+        for(int i=0; i<8; i++){
+            for(int j=0; j<8; j++){
+                if(chess[i][j].getGlobalBounds().contains(c.x,c.y) && chess[i][j].getFillColor()==Color::Transparent){
+                    chess[i][j].setOutlineThickness(3);
+                }else{
+                      chess[i][j].setOutlineThickness(0);
+                }
+            }
+        }
+    }
+    
 void drawScreen(){
     window.draw(s1);
+    for(int i=0; i<8;i++){
+        for(int j=0; j<8;j++){
+            window.draw(chess[i][j]);
+        }
+    }
 }
 
 };
@@ -82,6 +202,7 @@ sf:: RectangleShape button[3];
 while(window.isOpen()){
     if(flag && currscr==1){
         scr2.loadTextures();
+        scr2.loadChess();
         flag=false;
     }
     if(currscr==0){
@@ -153,6 +274,8 @@ text[i-1].setFillColor(sf::Color(60, 40, 20));
         }
         }
     }
+   
+    scr2.hoverAffect();
     window.clear();
     window.draw(screen1);
     scr2.drawScreen();
