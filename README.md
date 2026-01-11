@@ -38,7 +38,7 @@ build\app.exe
 
 ## Notes
 - Make sure your assets (images, fonts) are in the correct folders as referenced in the code.
-- For more details, see [RELEASE_NOTES_v1.0.0.md](RELEASE_NOTES_v1.0.0.md).
+- For more details, see [Release Notes/RELEASE_NOTES_v1.0.0.md](Release%20Notes/RELEASE_NOTES_v1.0.0.md).
 
 ## License
 MIT
