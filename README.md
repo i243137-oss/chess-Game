@@ -3,12 +3,16 @@
 A simple chess game project using SFML 2.5.1 (C++). This release includes a graphical menu, button hover effects, and basic board rendering.
 
 ## Features
-- Main menu with New Game, Options, Exit buttons
-- Button hover and keyboard navigation
-- SFML-based graphics
-- Resource management for textures and fonts
-- Screen switching between menu and board
-- Optimized resource loading
+
+## Latest Enhancements
+- Piece movement logic: Select a piece with left click, move it with right click to a valid square.
+- Enhanced hover effect: Selected piece is highlighted in green, possible moves outlined for better user experience.
+
+## Gameplay Instructions
+- Use the mouse to interact with the chessboard.
+- Left click to select a piece (highlighted in green).
+- Right click on a valid square to move the selected piece.
+- Menu navigation is available via mouse and keyboard.
 
 ## Requirements
 - C++ compiler (g++, MinGW, etc.)
