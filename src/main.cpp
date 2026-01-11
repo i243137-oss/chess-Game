@@ -33,6 +33,32 @@ void drawText(RenderWindow & window,sf::Text text[],int number){
         window.draw(text[i]);
     }
 }
+/*class Node{
+    public:
+    Node * next;
+    Node(){
+        next=nullptr;
+    }
+};
+class Move{
+     bool player;
+     Node * left;
+     Node * right;
+     Node * up;
+     Node * down;
+     Texture pieces[6];
+
+     public:
+    void  move(RectangleShape &m){
+         if(m.getTexture()==(pieces+3)){
+        
+
+         }
+     }
+
+
+};
+*/
 class Screen2{
     private:
     sf::RenderWindow & window;
@@ -89,6 +115,7 @@ class Screen2{
     
     
     }
+    
     void setBlackChess(){
         // black
         for( int i=0; i<8; i++){
@@ -96,6 +123,7 @@ class Screen2{
         chess[i][1].setTexture(&blackMoves[3]);
         }
         chess[0][0].setFillColor(Color::White);
+        
         chess[0][0].setTexture(&blackMoves[5]);
          chess[7][0].setFillColor(Color::White);
         chess[7][0].setTexture(&blackMoves[5]);
@@ -115,7 +143,8 @@ class Screen2{
 
          chess[4][0].setFillColor(Color::White);
         chess[4][0].setTexture(&blackMoves[1]);
-
+        Vector2f c=chess[0][0].getPosition();
+        cout<<c.x<<"  "<<c.y<<endl;
 
 
         
@@ -157,11 +186,14 @@ class Screen2{
             for(int j=0; j<8; j++){
                 if(chess[i][j].getGlobalBounds().contains(c.x,c.y) && chess[i][j].getFillColor()==Color::Transparent){
                     chess[i][j].setOutlineThickness(3);
+                    
                 }else{
                       chess[i][j].setOutlineThickness(0);
+                      
                 }
             }
         }
+      
     }
     
 void drawScreen(){
@@ -171,6 +203,24 @@ void drawScreen(){
             window.draw(chess[i][j]);
         }
     }
+} 
+int pollEvent(){
+     sf::Event event;
+    while(window.pollEvent(event)){
+        
+        if(event.type==sf::Event::Closed){
+            window.close();
+        }
+        if(event.type==Event::KeyPressed){
+        if(event.key.code==Keyboard::Escape){
+            return 0;
+        }
+        }
+        if(event.type==Event::MouseButtonPressed){
+
+        }
+    }
+    return 1;
 }
 
 };
@@ -181,6 +231,11 @@ int main(){
 sf::RenderWindow window (VideoMode(800,800),"Chess Game ");
 t1.loadFromFile("screen1.png");
 t2.loadFromFile("button.png");
+t3.loadFromFile("cursor.png");
+
+RectangleShape cursor;
+
+cursor.setTexture(&t3);
 Screen2 scr2(window);
 
 fd.loadFromFile("fd.ttf");
@@ -210,6 +265,7 @@ while(window.isOpen()){
     
     sf::Event event;
     c=Mouse::getPosition(window);
+   
     while(window.pollEvent(event)){
         
         if(event.type==sf::Event::Closed){
@@ -248,6 +304,7 @@ while(window.isOpen()){
     text[0].setFillColor(Color::White);
     text[1].setFillColor(Color::White);
     text[2].setFillColor(Color::White);
+   
     
     if(i==1 || i==2 || i==3 ){
 text[i-1].setFillColor(sf::Color(60, 40, 20));
@@ -257,28 +314,19 @@ text[i-1].setFillColor(sf::Color(60, 40, 20));
     window.draw(screen1);
     drawButtons(window,button,3);
     drawText(window,text,3);
+    window.draw(cursor);
     
     window.display();
 }else if(currscr==1){
-     
-    sf::Event event;
+  
     c=Mouse::getPosition(window);
-    while(window.pollEvent(event)){
-        
-        if(event.type==sf::Event::Closed){
-            window.close();
-        }
-        if(event.type==Event::KeyPressed){
-        if(event.key.code==Keyboard::Escape){
-            currscr=0;
-        }
-        }
-    }
    
+   currscr=scr2.pollEvent();
     scr2.hoverAffect();
     window.clear();
     window.draw(screen1);
     scr2.drawScreen();
+    window.draw(cursor);
     window.display();
 
 }
