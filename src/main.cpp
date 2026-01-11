@@ -64,6 +64,9 @@ class Screen2{
     sf::RenderWindow & window;
     sf::RectangleShape s1;
     sf::Texture  screen;
+    Vector2i selected;
+    Vector2i dest;
+    bool select;
     public:
     sf::Texture whitesMoves[6];
     sf::Texture blackMoves[6];
@@ -71,6 +74,8 @@ class Screen2{
 
     public:
     Screen2(RenderWindow & wind) : window(wind){
+        selected.x=selected.y=dest.x=dest.y=-1;
+        select=false;
     }
     void loadTextures(){
         s1.setSize(Vector2f(800,800));
@@ -188,6 +193,7 @@ class Screen2{
                     chess[i][j].setOutlineThickness(3);
                     
                 }else{
+                    if(chess[i][j].getOutlineColor()==Color::Yellow)
                       chess[i][j].setOutlineThickness(0);
                       
                 }
@@ -206,6 +212,7 @@ void drawScreen(){
 } 
 int pollEvent(){
      sf::Event event;
+     Vector2i c=Mouse::getPosition(window);
     while(window.pollEvent(event)){
         
         if(event.type==sf::Event::Closed){
@@ -217,9 +224,41 @@ int pollEvent(){
         }
         }
         if(event.type==Event::MouseButtonPressed){
-
+            if(event.mouseButton.button==Mouse::Left){
+            for(int i=0; i<8;i++){
+                for(int j=0; j<8; j++){
+                   if( chess[i][j].getGlobalBounds().contains(c.x,c.y) && chess[i][j].getFillColor()!=Color::Transparent){
+                  selected.x=i;
+                  selected.y=j;
+                  select=true;
+                  chess[i][j].setOutlineColor(Color::Green);
+                  chess[i][j].setOutlineThickness(3);
+                   }
+                }
+            }
+            }
         }
+        if(event.type==Event::MouseButtonPressed && select){
+           if(event.mouseButton.button==Mouse::Right){
+            for(int i=0; i<8; i++){
+                for(int j=0; j<8; j++){
+                   if(chess[i][j].getGlobalBounds().contains(c.x,c.y) && chess[i][j].getFillColor()==Color::Transparent){
+                    chess[i][j].setFillColor(Color::White);
+                    chess[i][j].setTexture(chess[selected.x][selected.y].getTexture());
+                    chess[selected.x][selected.y].setTexture(nullptr);
+                     chess[selected.x][selected.y].setFillColor(Color::Transparent);
+                     select=false;
+                      chess[selected.x][selected.y].setOutlineColor(Color::Yellow);
+                       chess[selected.x][selected.y].setOutlineThickness(3);
+                   }
+                }
+            }
+
+           }
+        }
+         
     }
+   
     return 1;
 }
 
